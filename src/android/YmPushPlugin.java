@@ -60,6 +60,7 @@ public class YmPushPlugin extends CordovaPlugin {
                     Log.e("x", "zl");
                     printKeyValue();
                     ymPush();
+                    getDeviceToken();
                 }
             });
 
@@ -68,6 +69,15 @@ public class YmPushPlugin extends CordovaPlugin {
         else {
             return false;
         }
+    }
+    
+    
+    public void getDeviceToken(){
+        String device_token = UmengRegistrar.getRegistrationId(cordovaInterface.getActivity());
+        PluginResult mPlugin = new PluginResult(PluginResult.Status.OK,
+                "{\""+"device_token\""+":"+"\""+device_token+"\"}");
+        mPlugin.setKeepCallback(true);
+        callbackContext.sendPluginResult(mPlugin);
     }
 
     public void ymPush(){
@@ -196,7 +206,7 @@ public class YmPushPlugin extends CordovaPlugin {
                     }
                     Log.e("xxx", "z");
                     PluginResult mPlugin = new PluginResult(PluginResult.Status.OK,
-                            msg.custom);
+                            "{\""+"msg\""+":"+"\""+msg.custom+"\"}");
                     mPlugin.setKeepCallback(true);
                     callbackContext.sendPluginResult(mPlugin);
                     Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
